@@ -1,0 +1,32 @@
+{
+    "name": "webikevn/http-client",
+    "description": "Factory wrapper around Guzzle HTTP Client to simplify things for lazy dev",
+    "type": "library",
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.5",
+        "psr/log": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nguyen Truong Giang",
+            "email": "nguyen.giang@rivercrane.vn"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Webikevn\\HttpClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webikevn\\HttpClient\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
+}
