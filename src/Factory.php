@@ -117,7 +117,7 @@ class Factory
      * @param int $maxRetries
      * @param int $delayInSec
      * @param int $minErrorCode
-     * @return $this
+     * @return self
      */
     public function enableRetries(int $maxRetries = 3, int $delayInSec = 1, int $minErrorCode = 500): self
     {
@@ -131,7 +131,9 @@ class Factory
             $delayInSec = 0.0001; // this is so we don't actually wait seconds in tests
         }
 
-        $increasingDelay = $delayInSec * 1000;
+        $increasingDelay = function ($attempt) use ($delayInSec) {
+            return $attempt * $delayInSec * 1000;
+        };
 
         return $this->withMiddleware(
             Middleware::retry($decider, $increasingDelay),

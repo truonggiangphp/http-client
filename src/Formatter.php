@@ -48,7 +48,9 @@ class Formatter extends MessageFormatter
     private function formatter(?MessageInterface $message): callable
     {
         if ($message === null || (string)$message->getBody() === '') {
-            return fn() => '';
+            return function () {
+                return '';
+            };
         }
 
         $contentType = $message->getHeader('Content-Type')[0] ?? '';
