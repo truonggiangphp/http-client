@@ -131,7 +131,7 @@ class Factory
             $delayInSec = 0.0001; // this is so we don't actually wait seconds in tests
         }
 
-        $increasingDelay = fn($attempt) => $attempt * $delayInSec * 1000;
+        $increasingDelay = $delayInSec * 1000;
 
         return $this->withMiddleware(
             Middleware::retry($decider, $increasingDelay),
