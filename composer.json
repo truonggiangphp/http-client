@@ -3,7 +3,7 @@
     "description": "Factory wrapper around Guzzle HTTP Client to simplify things for lazy dev",
     "type": "library",
     "require": {
-        "php": "^7.4",
+        "php": "^7.3",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.5",
         "psr/log": "^1.0"
