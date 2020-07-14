@@ -27,6 +27,12 @@ class Formatter extends MessageFormatter
         'text/html',
     ];
 
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface|null $response
+     * @param Exception|null $error
+     * @return string|string[]|null
+     */
     public function format(RequestInterface $request, ResponseInterface $response = null, Exception $error = null)
     {
         return preg_replace_callback_array([
@@ -35,6 +41,10 @@ class Formatter extends MessageFormatter
         ], parent::format($request, $response, $error));
     }
 
+    /**
+     * @param MessageInterface|null $message
+     * @return callable
+     */
     private function formatter(?MessageInterface $message): callable
     {
         if ($message === null || (string)$message->getBody() === '') {
@@ -54,6 +64,6 @@ class Formatter extends MessageFormatter
             }
         }
 
-        return fn() => '[stripped body: ' . $contentType . ']';
+        return '[stripped body: ' . $contentType . ']';
     }
 }

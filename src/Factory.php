@@ -19,13 +19,36 @@ use Psr\Log\LoggerInterface;
  */
 class Factory
 {
-    private ?LoggerInterface $logger;
-    private bool $fakeRequests;
+    /**
+     * @var LoggerInterface|null
+     */
+    private $logger;
 
-    private array $options;
-    private HandlerStack $handler;
-    public array $history = [];
+    /**
+     * @var bool
+     */
+    private $fakeRequests;
 
+    /**
+     * @var array
+     */
+    private $options;
+
+    /**
+     * @var HandlerStack
+     */
+    private $handler;
+
+    /**
+     * @var array
+     */
+    public $history = [];
+
+    /**
+     * Factory constructor.
+     * @param bool $fakeRequests
+     * @param LoggerInterface|null $logger
+     */
     public function __construct(bool $fakeRequests, LoggerInterface $logger = null)
     {
         $this->fakeRequests = $fakeRequests;
@@ -45,6 +68,9 @@ class Factory
         return $this;
     }
 
+    /**
+     * @return ClientInterface
+     */
     public function make(): ClientInterface
     {
         $client = new Client(['handler' => $this->handler] + $this->options);
@@ -62,11 +88,19 @@ class Factory
         return $client;
     }
 
+    /**
+     * @param ClientInterface $client
+     * @return array
+     */
     public function getHistory(ClientInterface $client): array
     {
         return $this->history[spl_object_id($client)] ?? [];
     }
 
+    /**
+     * @param string $format
+     * @return $this
+     */
     public function enableLogging(string $format = Formatter::DEFAULT_FORMAT): self
     {
         if ($this->logger === null) {
@@ -79,6 +113,12 @@ class Factory
         );
     }
 
+    /**
+     * @param int $maxRetries
+     * @param int $delayInSec
+     * @param int $minErrorCode
+     * @return $this
+     */
     public function enableRetries(int $maxRetries = 3, int $delayInSec = 1, int $minErrorCode = 500): self
     {
         $decider = function ($retries, $_, $response) use ($maxRetries, $minErrorCode) {
@@ -99,6 +139,11 @@ class Factory
         );
     }
 
+    /**
+     * @param callable $middleware
+     * @param string $name
+     * @return $this
+     */
     public function withMiddleware(callable $middleware, string $name = ''): self
     {
         $this->handler->push($middleware, $name);
@@ -106,6 +151,9 @@ class Factory
         return $this;
     }
 
+    /**
+     * @return void
+     */
     private function reset(): void
     {
         $this->options = [];
