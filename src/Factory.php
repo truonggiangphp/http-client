@@ -22,22 +22,22 @@ class Factory
     /**
      * @var LoggerInterface|null
      */
-    private $logger;
+    protected $logger;
 
     /**
      * @var bool
      */
-    private $fakeRequests;
+    protected $fakeRequests;
 
     /**
      * @var array
      */
-    private $options;
+    protected $options;
 
     /**
      * @var HandlerStack
      */
-    private $handler;
+    protected $handler;
 
     /**
      * @var array
